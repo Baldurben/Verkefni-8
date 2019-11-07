@@ -36,27 +36,37 @@ const text = (() => {
 
   function formHandler(e) {
     e.preventDefault();
+	//athuga hvort input sé tómt
+	if(document.getElementsByClassName("form__input")[0].value.trim() == '' || document.getElementsByClassName("form__input")[0].value == null) return;
+	
+	//Búa til button
 	var takki = document.createElement("Button")
 	takki.innerHTML = 'Eyða';
 	takki.className = "item__button";
 	takki.addEventListener('click', deleteItem);
+	
+	// Búa til span
 	var textinn = document.createElement("span")
     textinn.innerHTML = document.getElementsByClassName("form__input")[0].value;
 	textinn.className = "item__text";
 	textinn.addEventListener('click', edit);
+	
+	//Búa til input
 	var checkkassi = document.createElement("input")
 	checkkassi.setAttribute("type", "checkbox")
 	checkkassi.className = "item__checkbox"
 	checkkassi.addEventListener('change', finish);
+	
+	//Búa til lista
 	var listi = document.createElement("li")
 	listi.className = "item"
+	
+	//Festa allt saman síðan setja í html og hreinsa input
 	listi.appendChild(checkkassi);
 	listi.appendChild(textinn);
 	listi.appendChild(takki);
-	console.log(listi);
-	if(textinn.innerHTML.trim() == '' || textinn.innerHTML == null) return;
-	else document.querySelector(".items").appendChild(listi);
-	document.getElementsByClassName("form__input")[0].value = '';
+	document.querySelector(".items").appendChild(listi);
+	document.querySelectorAll(".form__input")[0].value = '';
 	
 
     console.log('halló heimur');
@@ -64,56 +74,29 @@ const text = (() => {
 
   // event handler fyrir það að klára færslu
   function finish(e) {
-		if(this.checked == true) {	
-			Parent = this.parentNode;	
-			Parent.className += " item--done"
-		}
-		if(this.checked == false) {
-			Parent = this.parentNode;
-			Parent.className = "item"
-		}
+		if(e.target.checked == true) e.target.parentNode.className += " item--done"
+		
+		if(e.target.checked == false) e.target.parentNode.className = "item"
+		
   }			
+  
   // event handler fyrir það að breyta færslu
   function edit(e) {
-	/*
-	þetta = this;
-	þetta.contentEditable = true;
-	document.execCommand("defaultParagraphSeparator", false);
-	þetta.style.border='3px dotted black';
-	onmouseout = function() {
-		þetta.style.border='none';
-	}
-	*/
-	this.removeEventListener('click', edit);
-	var texti = this.innerHTML;
-	this.innerHTML = "<input type='focus' id='tex' name='type' value='"+texti+"'>";
-	this.addEventListener('keypress', function(e) {
-	if(event.keyCode === 13) {
+	//Event listenerinn keyrði stanslaust þannig slökkva í smá stund
+	e.target.removeEventListener('click', edit);
+	var texti = e.target.innerHTML;
+	e.target.innerHTML = "<input type='focus' id='tex' name='type' value='"+texti+"'>";
+	e.target.addEventListener('keypress', function(e) {
+	if(event.keyCode === ENTER_KEYCODE) {
 		this.innerHTML = document.getElementById('tex').value;
-		this.addEventListener('click', edit);
+		e.target.addEventListener('click', edit);
 	}	
 	}); 
-	
-  }
-
-  // event handler fyrir það að klára að breyta færslu
-  function commit(e) {
-  }
-
-  // fall sem sér um að bæta við nýju item
-  function add(value) {
-	  alert();
-	/*
-	*/
   }
 
   // event handler til að eyða færslu
   function deleteItem(e) {
-	  this.parentNode.parentNode.removeChild(this.parentNode);
-  }
-
-  // hjálparfall til að útbúa element
-  function el(type, className, clickHandler) {
+	  e.target.parentNode.parentNode.removeChild(e.target.parentNode);
   }
 
   return {
