@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 const text = (() => {
   let items;
 
-
-  
   
   function init(_form, _items) {
     items = _items;
@@ -28,9 +26,6 @@ const text = (() => {
 	for(var i = 0; i < eyðatakkar.length; i++) {
 		eyðatakkar[i].addEventListener('click', deleteItem);
 	}
-	var bætavið = document.getElementsByClassName("form__button")
-	
-
     // TODO láta hluti í _items virka
   }
 
@@ -86,6 +81,7 @@ const text = (() => {
 	e.target.removeEventListener('click', edit);
 	var texti = e.target.innerHTML;
 	e.target.innerHTML = "<input type='focus' id='tex' name='type' value='"+texti+"'>";
+	document.getElementById('tex').focus(); 
 	e.target.addEventListener('keypress', function(e) {
 	if(event.keyCode === ENTER_KEYCODE) {
 		this.innerHTML = document.getElementById('tex').value;
